@@ -1,5 +1,7 @@
 # school-access-ceus
 
+[![demo](https://github.com/137721017-ctrl/school-access-ceus/actions/workflows/demo.yml/badge.svg)](https://github.com/137721017-ctrl/school-access-ceus/actions/workflows/demo.yml)
+
 Code and derived data for a multi-scale measurement of school accessibility in
 China, prepared for submission to *Computers, Environment and Urban Systems*.
 
