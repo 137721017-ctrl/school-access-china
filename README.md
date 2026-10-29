@@ -35,7 +35,13 @@ python -m venv .venv && source .venv/bin/activate    # Windows: .venv\Scripts\ac
 pip install -r requirements.txt
 
 make demo                       # or, without make: python demo/run_demo.py
+
+pip install -r requirements-optional.txt   # only for bivariate LISA and map redrawing
 ```
+
+CI runs `python demo/run_demo.py` on Python 3.10 and 3.12 for every push
+(`.github/workflows/demo.yml`), so the assertions below are checked, not just
+claimed.
 
 `make demo` takes about two minutes, needs no external data, and prints eight
 assertion blocks. On Windows without `make`, `python demo/run_demo.py` is the
