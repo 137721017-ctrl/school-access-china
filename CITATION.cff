@@ -1,0 +1,22 @@
+cff-version: 1.2.0
+title: "Multi-scale measurement of school accessibility: code and derived tables"
+message: "If you use this code or the derived tables, please cite the article and this archive."
+type: software
+version: 0.1.0
+date-released: 2026-10-29
+license: MIT
+authors:
+  # Fill these lines before the first public release; they appear in the
+  # "Cite this repository" box on GitHub.
+  - family-names: "TODO"
+    given-names: "TODO"
+    affiliation: "TODO"
+    orcid: "https://orcid.org/0000-0000-0000-0000"
+repository-code: "https://github.com/OWNER/school-access-ceus"
+keywords:
+  - accessibility
+  - Gaussian 2SFCA
+  - street network morphology
+  - street view imagery
+  - educational equity
+  - China

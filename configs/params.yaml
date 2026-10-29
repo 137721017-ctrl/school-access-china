@@ -1,0 +1,68 @@
+# Project parameters. Every number used in the paper must appear here,
+# so that the manuscript, the code, and the tables cannot drift apart.
+project: school-access-multiscale
+version: 0.1.0
+
+crs:
+  # China Albers (Krassovsky). All planar distances in metres.
+  albers: "+proj=aea +lat_1=25 +lat_2=47 +lat_0=0 +lon_0=105 +x_0=0 +y_0=0 +ellps=krass +units=m +no_defs"
+
+grid:
+  cell_size_m: 1000
+  n_cols: 4860
+  n_rows: 4350
+  origin_x: -2640000
+  origin_y: 5950000
+  cellid_rule: "cellid = row_index * n_cols + col_index"
+
+g2sfca:
+  catchment_seconds: 900        # 15-minute policy threshold
+  decay: gaussian               # f(d) = exp(-0.5 * (d / d0)^2), truncated at d0
+  modes: [walk, cycle, motor]
+  stages: [primary, middle]
+  coverage_rule_m: 100          # a cell counts as covered if >=100 m of its area is reached
+
+speeds_kmh:
+  walk: 4.8
+  cycle: 12.0
+  motor: 25.0
+
+streetview:
+  indicators: [GVI, TreeShare, SVF, Enclosure, RoadSurface, Sidewalk, EarthExposure, Diversity]
+  # +1 = a higher value makes the street environment worse (disadvantage direction)
+  # -1 = a higher value is protective
+  polarity:
+    GVI: -1
+    TreeShare: -1
+    SVF: -1
+    Enclosure: -1
+    RoadSurface: 1
+    Sidewalk: -1
+    EarthExposure: 1
+    Diversity: -1
+  aggregate: mean_of_z_within_city
+
+models:
+  dependent: walk_unreached_share
+  controls: [log_pop]
+  fixed_effects: mundlak         # city means of time-invariant covariates entered as controls
+  cluster_by: city
+  effect_unit: per_1sd           # marginal effects reported per 1 SD, in percentage points
+
+equity:
+  tertile_within_city: true
+  lisa_permutations: 999
+  weights: queen_1km
+
+scenarios:
+  s1_rule: cap_at_city_median    # S1: pull cells above the city median down to the median
+  s2_rule: cap_at_city_median
+  s3_rule: cap_at_upper_quartile
+
+paths:
+  # Nothing under data/ is shipped: the inputs are licensed and cannot be
+  # redistributed. Point SCHOOL_ACCESS_DATA (or data_root below) at your local
+  # copy of the derived tables; see DATA_AVAILABILITY.md.
+  data_root: "data/derived"
+  main_table: "analysis_table_1km.csv"
+  outputs: "outputs"

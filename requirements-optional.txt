@@ -1,0 +1,5 @@
+# Only needed for src/equity.py::bivariate_lisa and for redrawing the maps.
+geopandas>=0.14
+libpysal>=4.8
+esda>=2.5
+matplotlib>=3.7

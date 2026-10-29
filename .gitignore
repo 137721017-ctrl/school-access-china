@@ -1,0 +1,12 @@
+__pycache__/
+*.pyc
+.venv/
+outputs/*.csv
+demo/synthetic/
+.ipynb_checkpoints/
+# never commit restricted inputs
+data/raw/
+*.osm.pbf
+*.tif
+*.tiff
+data/derived/

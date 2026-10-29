@@ -1,0 +1,8 @@
+# Core dependencies: everything the demo and src/ need.
+# Python 3.10+
+numpy>=1.24
+pandas>=2.0
+scipy>=1.10
+networkx>=3.0
+statsmodels>=0.14
+PyYAML>=6.0
