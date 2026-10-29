@@ -1,4 +1,4 @@
-# Narrative plan for CEUS
+# Narrative plan for the manuscript
 
 This note records why the manuscript is ordered the way it is. The target
 journal judges four things in order: **methodological increment -> validation ->

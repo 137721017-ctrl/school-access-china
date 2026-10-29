@@ -1,6 +1,6 @@
-# school-access-ceus
+# school-access-china
 
-[![demo](https://github.com/137721017-ctrl/school-access-ceus/actions/workflows/demo.yml/badge.svg)](https://github.com/137721017-ctrl/school-access-ceus/actions/workflows/demo.yml)
+[![demo](https://github.com/137721017-ctrl/school-access-china/actions/workflows/demo.yml/badge.svg)](https://github.com/137721017-ctrl/school-access-china/actions/workflows/demo.yml)
 
 Code and derived data for a multi-scale measurement of school accessibility in
 China, prepared for submission to *Computers, Environment and Urban Systems*.
@@ -25,7 +25,7 @@ src/run_all.py            tables from an analysis-ready 1 km table
 demo/                     synthetic city + end-to-end assertions
 docs/paper_mapping.md     paper item -> function -> output
 docs/input_pipeline.md    how the 1 km analysis table itself is built
-docs/ceus_outline.md      narrative plan for the manuscript
+docs/manuscript_outline.md  narrative plan for the manuscript
 data/ANALYSIS_TABLE.md    schema contract for the analysis table
 DATA_AVAILABILITY.md      what can be shared, what cannot, and the exact wording
 ```

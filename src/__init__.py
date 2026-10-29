@@ -1,2 +1,2 @@
-"""School access measurement pipeline (CEUS submission)."""
+"""School access measurement pipeline."""
 __version__ = "0.1.0"
