@@ -5,7 +5,7 @@ median (S1, S2) and at the upper quartile (S3). For each scenario the covariate
 is edited, the fitted fractional model is re-predicted, and the change in the
 expected number of unreached children is aggregated with population weights.
 
-Reported quantities are in the same unit as the paper: children, and percentage
+Reported quantities are counts of children and percentage points of coverage
 points of the unreached share.
 """
 from __future__ import annotations

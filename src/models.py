@@ -67,7 +67,7 @@ def fit_linear_fe(
 ):
     """Linear probability benchmark with city fixed effects.
 
-    Present only as the comparison the paper reports (Table 6): the linear model
+    Present as a linear comparison for the fractional model
     is fitted the way it usually is, so that the difference between it and the
     fractional model is a difference in specification rather than in coding
     choices. Returns the results object and the design matrix.
