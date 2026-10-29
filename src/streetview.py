@@ -6,7 +6,6 @@ within city, and averaged. The result, `env`, is a disadvantage score: larger
 values mean a worse walking environment. Keeping the orientation in one place
 avoids the sign flips that plague composite indices.
 
-See manuscript Section 5.1 and Table 10-11.
 """
 from __future__ import annotations
 

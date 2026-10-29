@@ -1,5 +1,5 @@
-# Project parameters. Every number used in the paper must appear here,
-# so that the manuscript, the code, and the tables cannot drift apart.
+# Project parameters. Every number used in the analysis must appear here,
+# so that the code and the tables cannot drift apart.
 project: school-access-multiscale
 version: 0.1.0
 
@@ -62,7 +62,7 @@ scenarios:
 paths:
   # Nothing under data/ is shipped: the inputs are licensed and cannot be
   # redistributed. Point SCHOOL_ACCESS_DATA (or data_root below) at your local
-  # copy of the derived tables; see DATA_AVAILABILITY.md.
+  # copy of the derived tables.
   data_root: "data/derived"
   main_table: "analysis_table_1km.csv"
   outputs: "outputs"

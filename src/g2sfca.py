@@ -5,9 +5,9 @@ The identity  sum_i P_i A_i == sum_j S_j  holds only when every supply site
 has a non-empty catchment. Capacity sitting in catchments with no demand is
 never allocated, and the shortfall is exactly the amount by which the identity
 fails. We therefore return the residual instead of hiding it, because the
-paper's central claim is about redistribution, not creation, of capacity.
+point of the measure is redistribution, not creation, of capacity.
 
-Reference: Dai (2010) and the G2SFCA formulation in the manuscript, Eq. (1)-(2).
+Reference: Dai (2010).
 """
 from __future__ import annotations
 
@@ -114,7 +114,7 @@ def threshold_sweep(
     supply_cap: np.ndarray,
     thresholds=(600, 900, 1200, 1500, 1800),
 ) -> pd.DataFrame:
-    """Sensitivity of coverage to the time threshold (manuscript Table 3)."""
+    """Sensitivity of coverage to the time threshold ."""
     out = []
     for t in thresholds:
         res = two_step_fca(demand_xy, demand_pop, supply_xy, supply_cap, d0=t)

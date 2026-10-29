@@ -3,7 +3,7 @@
 This is the second, deliberately independent pipeline. It shares no code with
 the G2SFCA module: it solves a single multi-source shortest-path problem on the
 road graph, which cross-checks the catchment results without reusing their
-assumptions (manuscript Section 3.2, "two independent pipelines").
+assumptions ("two independent pipelines").
 
 A super source connected to every school node with weight 0 turns
 "distance to the nearest of k schools" into one Dijkstra pass, which is why

@@ -2,106 +2,76 @@
 
 [![demo](https://github.com/137721017-ctrl/school-access-china/actions/workflows/demo.yml/badge.svg)](https://github.com/137721017-ctrl/school-access-china/actions/workflows/demo.yml)
 
-Code and derived data for a multi-scale measurement of school accessibility in
-China, prepared for submission to *Computers, Environment and Urban Systems*.
+Measurement code for multi-scale school accessibility in China: Gaussian 2SFCA
+with a supply-conservation diagnostic, an independent nearest-school pipeline,
+street-network morphology, street-view environmental quality, fractional-response
+models, and spatial equity diagnostics.
 
-The repository answers one question: **can someone else re-run the measurement
-protocol on their own data?** It is not a dump of the working directory. Every
-number in the manuscript maps to a script (`docs/paper_mapping.md`), and every
-parameter lives in one YAML file (`configs/params.yaml`).
-
-## What is here
-
-```
-configs/params.yaml       every threshold, speed, polarity and path in the paper
-src/g2sfca.py             Gaussian 2SFCA + supply-conservation diagnostic
-src/nearest_school.py     independent pipeline: super-source Dijkstra
-src/morphology.py         five street-network indicators, circuity, VIF
-src/streetview.py         eight street-view indicators -> disadvantage score
-src/models.py             fractional logit, Mundlak device, linear benchmark
-src/equity.py             within-city tertiles, quadrants, excess co-occurrence, bivariate LISA
-src/scenarios.py          counterfactual re-prediction
-src/run_all.py            tables from an analysis-ready 1 km table
-demo/                     synthetic city + end-to-end assertions
-docs/paper_mapping.md     paper item -> function -> output
-docs/input_pipeline.md    how the 1 km analysis table itself is built
-docs/manuscript_outline.md  narrative plan for the manuscript
-data/ANALYSIS_TABLE.md    schema contract for the analysis table
-DATA_AVAILABILITY.md      what can be shared, what cannot, and the exact wording
-```
-
-## Quick start
+## Install and run
 
 ```bash
 python -m venv .venv && source .venv/bin/activate    # Windows: .venv\Scripts\activate
 pip install -r requirements.txt
+pip install -r requirements-optional.txt             # only for bivariate LISA
 
-make demo                       # or, without make: python demo/run_demo.py
-
-pip install -r requirements-optional.txt   # only for bivariate LISA and map redrawing
+make demo                                            # or: python demo/run_demo.py
 ```
 
-CI runs `python demo/run_demo.py` on Python 3.10 and 3.12 for every push
-(`.github/workflows/demo.yml`), so the assertions below are checked, not just
-claimed.
+The demo builds a 30 x 30 synthetic city, runs the whole stack on it and prints
+eight assertion blocks in about two minutes. It needs no external data, and CI
+runs it on Python 3.10 and 3.12 for every push.
 
-`make demo` takes about two minutes, needs no external data, and prints eight
-assertion blocks. On Windows without `make`, `python demo/run_demo.py` is the
-equivalent, and it is the command CI runs.
-
-The demo builds a 30 x 30 lattice city, runs the full stack on it, and checks the
-properties the manuscript relies on:
-
-1. the G2SFCA identity `sum P_i A_i = sum S_j` holds to 1e-6 when every catchment
-   has demand;
-2. the identity fails by exactly the capacity of an isolated school — the
-   diagnostic reports the shortfall instead of hiding it;
-3. the super-source Dijkstra pipeline runs independently of G2SFCA;
-4. morphology indicators stay bounded and scale-free;
-5. the fractional model recovers a known positive effect and reports marginal
-   effects per 1 SD in percentage points;
-6. the excess co-occurrence test returns observed / expected / ratio / p;
-7. quadrant shares close to 100 %, and the linear benchmark agrees with the
-   fractional model on the sign of the simulated effect;
-8. the counterfactual moves children in the expected direction.
-
-All numbers printed by the demo are synthetic. They test behaviour, not findings.
-
-## Reproducing the paper
+On your own data:
 
 ```bash
-export SCHOOL_ACCESS_DATA=/path/to/derived/tables     # Windows: set SCHOOL_ACCESS_DATA=...
-python -m src.run_all --table "$SCHOOL_ACCESS_DATA/analysis_table_1km.csv" --out outputs/
+python -m src.run_all --table path/to/analysis_table_1km.csv --out outputs/
 ```
 
-The expected columns are documented in `data/ANALYSIS_TABLE.md`. The export step
-that turns raw POI, road network and street-view imagery into that table is
-described in `docs/input_pipeline.md` and is not included, because the inputs
-cannot be redistributed — see `DATA_AVAILABILITY.md` for the protocol and the
-statement to paste into the manuscript.
+## Contents
 
-## Design decisions worth stating in the paper
+```
+configs/params.yaml    every threshold, speed, polarity and path
+src/g2sfca.py          Gaussian 2SFCA + supply-conservation diagnostic
+src/nearest_school.py  independent pipeline: super-source Dijkstra
+src/morphology.py      five street-network indicators, circuity, VIF
+src/streetview.py      eight street-view indicators -> disadvantage score
+src/models.py          fractional logit, Mundlak device, linear benchmark
+src/equity.py          within-city tertiles, quadrants, excess co-occurrence, bivariate LISA
+src/scenarios.py       counterfactual re-prediction
+src/run_all.py         all stages from an analysis-ready 1 km table
+demo/                  synthetic city + end-to-end assertions
+```
 
-- **Conservation is a diagnostic, not an assumption.** The identity is reported
-  with its residual, so a reader can see when capacity goes unallocated.
-- **Two pipelines, no shared code.** G2SFCA and nearest-school Dijkstra are
-  computed independently; agreement is evidence, not tautology.
-- **Tertiles within city.** A national cut would turn whole cities into
-  "deprived" and confound between- with within-city inequality.
-- **Independence null, not uniform null.** Co-occurrence is compared with the
-  product of marginal disadvantage rates, not with a flat expectation.
-- **Re-prediction, not extrapolation.** Scenarios edit covariates and re-predict
-  through the fitted non-linear model.
+## Input table
 
-## What is deliberately not included
+One row per 1 km cell. Columns used by `src/run_all.py`:
 
-- Licensed inputs: school POI, street-view imagery, the 30 m education grid.
-  Their aggregation rules are documented so the inputs can be rebuilt.
-- The plotting scripts: they depend on boundary shapefiles with their own
-  licences. Figures are redrawn from the CSV outputs.
-- Any absolute path or personal data. The repository is meant to run on someone
-  else's machine.
+| column | unit | meaning |
+|---|---|---|
+| `cellid` | int | `row_index * 4860 + col_index` in the China Albers 1 km grid |
+| `city` | str | city code for the case cities; `NA` outside them |
+| `x`, `y` | m | cell centroid, China Albers (Krassovsky) |
+| `pop` | persons | residential population; weight for every population-weighted statistic |
+| `walk_unreached_share` | share 0-1 | population-weighted share beyond the walk threshold |
+| `g2sfca_walk`, `g2sfca_cycle`, `g2sfca_motor` | persons per place | access values, one model per mode |
+| `rc` | index 0-1 | gamma index of the local subgraph, `e / (3 (v - 2))` |
+| `int_density` | count/km2 | nodes of degree >= 3 |
+| `link_node` | ratio | `e / v` |
+| `dead_end` | share 0-1 | share of degree-1 nodes |
+| `circuity` | ratio | network distance / straight-line distance to the assigned school |
+| `GVI` `TreeShare` `SVF` `Enclosure` `RoadSurface` `Sidewalk` `EarthExposure` `Diversity` | share 0-1 | street-view segmentation shares, 1 km mean; `env` is derived from them |
+| `edu_score` | index | 30 m community education composite, aggregated to 1 km |
+
+Three rules the code enforces: `walk_unreached_share` must lie in [0, 1];
+`circuity >= 1` by construction; and walk, cycle and motor access are separate
+models that must never be compared across modes.
+
+## Data
+
+The licensed inputs behind that table - school POI, street-view imagery and the
+30 m education grid - cannot be redistributed. `src/run_all.py` therefore starts
+from the derived 1 km table, so the pipeline runs without them.
 
 ## Licence and citation
 
-Code: MIT (`LICENSE`). Derived data: CC BY 4.0. Cite via `CITATION.cff`.
+Code: MIT (`LICENSE`). Derived tables: CC BY 4.0. Citation metadata: `CITATION.cff`.

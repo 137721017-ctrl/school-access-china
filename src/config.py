@@ -1,7 +1,7 @@
 """Configuration loading and path resolution.
 
 Every script reads its parameters from configs/params.yaml via `load_config()`,
-never from hard-coded numbers. This is what makes the manuscript reproducible:
+never from hard-coded numbers. This is what makes the results reproducible:
 changing a threshold changes it in one place only.
 """
 from __future__ import annotations

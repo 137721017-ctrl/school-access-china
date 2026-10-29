@@ -1,10 +1,10 @@
 """Analysis stages on an analysis-ready cell table.
 
 This entry point intentionally starts from a *derived* table (one row per 1 km
-cell, columns documented in data/ANALYSIS_TABLE.md) rather than from raw
-imagery and POI files. Reproducing the manuscript therefore requires one export
+cell, columns documented in the README) rather than from raw
+imagery and POI files. Reproducing the results therefore requires one export
 step plus this script, not a multi-terabyte download — which is exactly what a
-data-availability statement can promise.
+analysis portable.
 
 Usage
 -----

@@ -1,7 +1,7 @@
 """End-to-end smoke test on the synthetic city.
 
-Every assertion below corresponds to a claim the manuscript makes about the
-code's behaviour. If one fails, the corresponding paragraph is unsupported.
+Each assertion below checks one stated property of the pipeline. If one fails,
+the behaviour it describes cannot be claimed.
 
     python demo/run_demo.py
 """

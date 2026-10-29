@@ -9,9 +9,9 @@ the within estimator when the mean is computed over the full unbalanced panel.
 
 Marginal effects are reported per 1 SD of the covariate and converted to
 percentage points, because the logit is non-linear and a raw coefficient is not
-interpretable on the scale the paper speaks in.
+interpretable on the scale the results are reported in.
 
-See manuscript Tables 7-9 and Section 4.3.
+See `fit_fractional` and `marginal_effects_per_sd`.
 """
 from __future__ import annotations
 
